@@ -1,0 +1,31 @@
+{
+  "name": "nodejs-typescript",
+  "version": "1.0.0",
+  "description": "Use of node express and typescript in a postgress database",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rimraf dist && tsc",
+    "prestart": "npm run build",
+    "start": "node dist/index.js",
+    "preserver": "npm run build",
+    "serve": "concurrently -k \"tsc -w\" \"nodemon dist/index.js\""
+  },
+  "keywords": [],
+  "author": "Gabriel Teodoro",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/pg": "^8.11.6",
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.0",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "concurrently": "^8.2.2",
+    "pg": "^8.11.5"
+  }
+}
