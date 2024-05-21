@@ -4,11 +4,7 @@ const port = 8000;
 const app = express();
 
 app.get("/", (req: Request, res:Response) => {
-    res.send("Hello from express + typescript!!");
-})
-
-app.get("/hi", (req: Request, res:Response) => {
-    res.send("Typescript!!");
+    res.send("HOME PAGE");
 })
 
 app.listen(port, () =>{
