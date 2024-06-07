@@ -7,7 +7,7 @@ interface BibliographCurricularUnityAttributes {
   curricularUnityId: number;
 }
 
-@Table({ tableName: 'bibliograph_curricularUnity' })
+@Table({ tableName: 'bibliographCurricularUnity' })
 export default class BibliographCurricularUnity extends Model<BibliographCurricularUnityAttributes> implements BibliographCurricularUnityAttributes {
   @ForeignKey(() => Bibliograph)
   @Column({

@@ -7,7 +7,7 @@ interface KnowledgeCurricularUnityAttributes {
   curricularUnityId: number;
 }
 
-@Table({ tableName: 'knowledge_curricularUnity' })
+@Table({ tableName: 'knowledgeCurricularUnity' })
 export default class KnowledgeCurricularUnity extends Model<KnowledgeCurricularUnityAttributes> implements KnowledgeCurricularUnityAttributes {
   @ForeignKey(() => Knowledge)
   @Column({
