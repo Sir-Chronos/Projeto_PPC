@@ -17,5 +17,9 @@ export default class Skill extends Model<SkillAttributes> implements SkillAttrib
     type: DataType.STRING,
     allowNull: false
   })
+  @Column({
+    type: DataType.STRING,
+    allowNull: false
+  })
   description!: string;
 }
