@@ -1,11 +1,22 @@
-import { Model, Table, Column, DataType } from 'sequelize-typescript';
+import { Model, Table, Column, DataType, AllowNull } from 'sequelize-typescript';
+
+interface PPCAttributes {
+  occupationArea: string;
+  course: string;
+}
 
 @Table({ tableName: 'ppc' }) // Define table name here
-export default class PPC extends Model<PPC> {
-  @Column(DataType.STRING) // Define type of the column
+export default class PPC extends Model<PPCAttributes> implements PPCAttributes{
+  @Column({
+    type: DataType.STRING,
+    allowNull: false
+  }) // Define type of the column
   occupationArea!: string;
 
-  @Column(DataType.STRING) // Define type of the column
+  @Column({
+    type: DataType.STRING,
+    allowNull: false
+  }) // Define type of the column
   course!: string;
 
   

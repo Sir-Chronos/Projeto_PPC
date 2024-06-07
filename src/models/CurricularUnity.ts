@@ -4,8 +4,16 @@ import Skill from './Skill';
 import Bibliograph from './Bibliograph';
 import CurricularUnitySkill from './CurricularUnitySkill';
 
+interface CurricularUnityAttributes {
+  objective: string;
+  name: string;
+  knowledges: Knowledge[];
+  skills: Skill[];
+  bibliographs: Bibliograph[];
+}
+
 @Table({ tableName: 'curricularUnity' }) // Define table name here
-export default class CurricularUnity extends Model<CurricularUnity> {
+export default class CurricularUnity extends Model<CurricularUnityAttributes> implements CurricularUnityAttributes{
   @Column({
     type: DataType.STRING,
     allowNull: false,

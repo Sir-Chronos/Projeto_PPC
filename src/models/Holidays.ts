@@ -1,13 +1,28 @@
-import { Model, Table, Column, DataType } from 'sequelize-typescript';
+import { Model, Table, Column, DataType, AllowNull } from 'sequelize-typescript';
+
+interface HolidaysAttributes {
+  type: string;
+  date: Date;
+  compensation?: Date;
+}
 
 @Table({ tableName: 'holidays' }) // Define table name here
-export default class Holidays extends Model<Holidays> {
-  @Column(DataType.STRING) // Define type of the column
+export default class Holidays extends Model<HolidaysAttributes> implements HolidaysAttributes{
+  @Column({
+    type:DataType.STRING,
+    allowNull: false
+  }) // Define type of the column
   type!: string;
 
-  @Column(DataType.DATE) // Define type of the column
+  @Column({
+    type:DataType.DATE,
+    allowNull: false
+  }) // Define type of the column
   date!: Date;
 
-  @Column(DataType.DATE)
+  @Column({
+    type:DataType.DATE,
+    allowNull: true
+  })
   compensation?: Date;
 }

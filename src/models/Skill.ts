@@ -1,10 +1,21 @@
-import { Model, Table, Column, DataType } from "sequelize-typescript";
+import { Model, Table, Column, DataType } from 'sequelize-typescript';
 
-@Table({ tableName: "skill" }) // Define table name here
-export default class Skill extends Model<Skill> {
-  @Column(DataType.STRING) // Define type of the column
+interface SkillAttributes {
+  type: string;
+  description: string;
+}
+
+@Table({ tableName: 'skill' })
+export default class Skill extends Model<SkillAttributes> implements SkillAttributes {
+  @Column({
+    type: DataType.STRING,
+    allowNull: false
+  })
   type!: string;
 
-  @Column(DataType.STRING) // Define type of the column
+  @Column({
+    type: DataType.STRING,
+    allowNull: false
+  })
   description!: string;
 }

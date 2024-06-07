@@ -1,12 +1,23 @@
-import { Model, Table, Column, DataType, ForeignKey, AllowNull, BelongsTo, HasMany } from 'sequelize-typescript';
+import { Model, Table, Column, DataType, ForeignKey, BelongsTo, HasMany } from 'sequelize-typescript';
+import CurricularUnity from './CurricularUnity';
 
-@Table({ tableName: 'knowledge' }) // Define table name here
-export default class Knowledge extends Model<Knowledge> {
-  @Column(DataType.STRING) // Define type of the column
+interface KnowledgeAttributes {
+  description: string;
+  knowFatherId?: number;
+  knowFather?: Knowledge;
+  children?: Knowledge[];
+  curricularUnityId?: number; // Adicionando o campo curricularUnityId
+}
+
+@Table({ tableName: 'knowledge' })
+export default class Knowledge extends Model<KnowledgeAttributes> implements KnowledgeAttributes {
+  @Column({
+    type: DataType.STRING,
+    allowNull: false
+  })
   description!: string;
 
   @ForeignKey(() => Knowledge)
-
   @Column({
     type: DataType.INTEGER,
     allowNull: true
@@ -14,8 +25,18 @@ export default class Knowledge extends Model<Knowledge> {
   knowFatherId?: number;
 
   @BelongsTo(() => Knowledge, 'knowFatherId')
-  knowFather?: number;
+  knowFather?: Knowledge;
 
   @HasMany(() => Knowledge, 'knowFatherId')
-  children!: Knowledge[];
+  children?: Knowledge[];
+
+  @ForeignKey(() => CurricularUnity) // Definindo a chave estrangeira para CurricularUnity
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: true
+  })
+  curricularUnityId?: number;
+
+  @BelongsTo(() => CurricularUnity) // Associe CurricularUnity a Knowledge
+  curricularUnity?: CurricularUnity;
 }
