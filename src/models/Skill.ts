@@ -6,7 +6,7 @@ interface SkillAttributes {
 }
 
 @Table({ tableName: 'skill' })
-class Skill extends Model<Skill, SkillAttributes> implements SkillAttributes {
+export default class Skill extends Model<SkillAttributes> implements SkillAttributes {
   @Column({
     type: DataType.STRING,
     allowNull: false
@@ -17,7 +17,9 @@ class Skill extends Model<Skill, SkillAttributes> implements SkillAttributes {
     type: DataType.STRING,
     allowNull: false
   })
+  @Column({
+    type: DataType.STRING,
+    allowNull: false
+  })
   description!: string;
 }
-
-export default Skill;
