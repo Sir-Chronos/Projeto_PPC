@@ -1,20 +1,21 @@
-import express, { Express, Request, Response } from "express";
+import express, { Request, Response } from "express";
+import SkillRouter from "./routes/Skill";
 import sequelize from "./config/sequelize";
-import Skill from "./models/Skill";
 
-// Database
-const db = sequelize;
+const port = 8000;
+const app = express();
 
-db.authenticate()
-  .then(() => console.log("Database connected..."))
-  .catch((err) => console.log("Error: ", err));
+app.use(express.json()); // Middleware for JSON handling
+app.use("/skill", SkillRouter); // Using the routes
 
-// db.sync({ force: true }).then(() => console.log('All models were synchronized successfully.'));
+sequelize.sync().then(() => {
+    app.listen(port, () => {
+        console.log(`Now listening on port http://localhost:${port}`);
+    });
+}).catch((err: Error) => { // Ensuring type safety with Error type
+    console.error('Unable to connect to the database:', err);
+});
 
-
-
-(async () => {
-  // Create a new skill
-  const skill = await Skill.create({ type: 'Redes', description: 'Saber ligar uma vm da china' });
-  console.log("Skill created sucessfully:", skill.id);
-})();
+app.get("/", (req: Request, res: Response) => {
+    res.send("Home page");
+});
