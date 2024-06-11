@@ -3,8 +3,6 @@ import { Model, Table, Column, DataType, ForeignKey, BelongsTo, HasMany } from '
 interface KnowledgeAttributes {
   description: string;
   knowFatherId?: number;
-  knowFather?: Knowledge;
-  children?: Knowledge[];
 }
 
 @Table({ tableName: 'knowledge' })
@@ -22,9 +20,10 @@ export default class Knowledge extends Model<KnowledgeAttributes> implements Kno
   })
   knowFatherId?: number;
 
-  @BelongsTo(() => Knowledge, 'knowFatherId')
-  knowFather?: Knowledge;
+  @BelongsTo(() => Knowledge, { foreignKey: 'knowFatherId', targetKey: 'id' })
+  parentKnowledge?: Knowledge;
 
-  @HasMany(() => Knowledge, 'knowFatherId')
-  children?: Knowledge[];
+  @HasMany(() => Knowledge, { foreignKey: 'knowFatherId', sourceKey: 'id' })
+  childKnowledges?: Knowledge[];
 }
+

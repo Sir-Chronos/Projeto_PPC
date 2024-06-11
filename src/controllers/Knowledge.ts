@@ -10,7 +10,7 @@ db.authenticate()
 
 async function CreateKnowledge(description: string, knowFatherId?: number, curricularUnityId?: number) {
   try {
-    const knowledge = await Knowledge.create({ description, knowFatherId, curricularUnityId });
+    const knowledge = await Knowledge.create({ description, knowFatherId});
     console.log("Knowledge created successfully:", knowledge.id);
     return knowledge;
   } catch (error) {
