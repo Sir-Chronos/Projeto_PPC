@@ -5,9 +5,9 @@ const KnowledgeRouter = Router();
 
 // Route to create a Knowledge
 KnowledgeRouter.post("/", async (req: Request, res: Response) => {
-    const { description, knowFatherId, curricularUnityId } = req.body;
+    const { description, knowFatherId } = req.body;
     try {
-        const knowledge = await CreateKnowledge(description, knowFatherId, curricularUnityId);
+        const knowledge = await CreateKnowledge(description, knowFatherId);
         res.status(201).json(knowledge);
     } catch (error) {
         console.error("Error creating Knowledge:", error);
@@ -45,9 +45,9 @@ KnowledgeRouter.get("/:id", async (req: Request, res: Response) => {
 // Route to update a specific Knowledge
 KnowledgeRouter.put("/:id", async (req: Request, res: Response) => {
     const id = parseInt(req.params.id);
-    const { description, knowFatherId, curricularUnityId } = req.body;
+    const { description, knowFatherId } = req.body;
     try {
-        const updatedKnowledge = await UpdateKnowledge(id, description, knowFatherId, curricularUnityId);
+        const updatedKnowledge = await UpdateKnowledge(id, description, knowFatherId);
         if (updatedKnowledge) {
             res.status(200).send(`Knowledge with id ${id} updated`);
         } else {
