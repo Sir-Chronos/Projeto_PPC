@@ -1,5 +1,4 @@
 import sequelize from "../config/sequelize";
-import CurricularUnity from "../models/CurricularUnity";
 import Knowledge from "../models/Knowledge";
 
 const db = sequelize;
@@ -8,9 +7,9 @@ db.authenticate()
   .then(() => console.log("Database connected..."))
   .catch((err) => console.log("Error: ", err));
 
-async function CreateKnowledge(description: string, knowFatherId?: number, curricularUnityId?: number) {
+async function CreateKnowledge(description: string, knowFatherId?: number) {
   try {
-    const knowledge = await Knowledge.create({ description, knowFatherId});
+    const knowledge = await Knowledge.create({ description, knowFatherId });
     console.log("Knowledge created successfully:", knowledge.id);
     return knowledge;
   } catch (error) {
@@ -23,9 +22,8 @@ async function ReadAllKnowledge() {
   try {
     const knowledgeList = await Knowledge.findAll({
       include: [
-        { model: Knowledge, as: 'children' },
-        { model: Knowledge, as: 'knowFather' },
-        { model: CurricularUnity, as: 'curricularUnity' }
+        { model: Knowledge, as: 'childKnowledges' },
+        { model: Knowledge, as: 'parentKnowledge' }
       ]
     });
     console.log("Knowledge retrieved successfully:", knowledgeList);
@@ -40,9 +38,8 @@ async function ReadKnowledge(id: number) {
   try {
     const knowledge = await Knowledge.findByPk(id, {
       include: [
-        { model: Knowledge, as: 'children' },
-        { model: Knowledge, as: 'knowFather' },
-        { model: CurricularUnity, as: 'curricularUnity' }
+        { model: Knowledge, as: 'childKnowledges' },
+        { model: Knowledge, as: 'parentKnowledge' }
       ]
     });
     if (knowledge) {
@@ -58,13 +55,12 @@ async function ReadKnowledge(id: number) {
   }
 }
 
-async function UpdateKnowledge(id: number, description: string, knowFatherId?: number, curricularUnityId?: number) {
+async function UpdateKnowledge(id: number, description: string, knowFatherId?: number) {
   try {
     const knowledge = await Knowledge.findByPk(id);
     if (knowledge) {
       knowledge.description = description;
       if (knowFatherId !== undefined) knowledge.knowFatherId = knowFatherId;
-      if (curricularUnityId !== undefined) knowledge.curricularUnityId = curricularUnityId;
       await knowledge.save();
       console.log("Knowledge updated successfully:", knowledge);
       return knowledge;
