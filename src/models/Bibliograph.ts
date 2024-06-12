@@ -1,5 +1,4 @@
 import { Model, Table, Column, DataType, ForeignKey } from 'sequelize-typescript';
-import CurricularUnity from './CurricularUnity';
 
 interface BibliographAttributes {
   type: string;

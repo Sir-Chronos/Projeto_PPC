@@ -1,12 +1,14 @@
-import { Model, Table, Column, DataType, BelongsToMany, HasMany } from 'sequelize-typescript';
+import { Model, Table, Column, DataType, BelongsToMany } from 'sequelize-typescript';
+import Bibliograph from './Bibliograph';
+import CurricularUnityBibliograph from './CurricularUnityBibliograph';
 
 interface CurricularUnityAttributes {
   objective: string;
   name: string;
 }
 
-@Table({ tableName: 'curricularUnity' }) // Define table name here
-export default class CurricularUnity extends Model<CurricularUnityAttributes> implements CurricularUnityAttributes{
+@Table({ tableName: 'curricularUnity' })
+export default class CurricularUnity extends Model<CurricularUnityAttributes> implements CurricularUnityAttributes {
   @Column({
     type: DataType.STRING,
     allowNull: false,
@@ -18,4 +20,8 @@ export default class CurricularUnity extends Model<CurricularUnityAttributes> im
     allowNull: false,
   })
   name!: string;
+
+  // Define the many-to-many relationship with Bibliograph
+  @BelongsToMany(() => Bibliograph, () => CurricularUnityBibliograph)
+  bibliographs!: Bibliograph[];
 }
