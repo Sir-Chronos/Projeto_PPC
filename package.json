@@ -9,7 +9,7 @@
     "prestart": "npm run build",
     "start": "node dist/index.js",
     "preserve": "npm run build",
-    "serve": "concurrently -k \"tsc -w\" \"nodemon dist/index.js\""
+    "serve": "concurrently -k \"tsc -w\" \"nodemon dist/index.js --config nodemon.json\""
   },
   "keywords": [],
   "author": "Gabriel Teodoro",

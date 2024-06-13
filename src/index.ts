@@ -1,12 +1,15 @@
 import express, { Request, Response } from "express";
-import SkillRouter from "./routes/Skill";
 import sequelize from "./config/sequelize";
+
+import SkillRouter from "./routes/Skill";
+import KnowledgeRouter from "./routes/Knowledge";
 
 const port = 8000;
 const app = express();
 
 app.use(express.json()); // Middleware for JSON handling
 app.use("/skill", SkillRouter); // Using the routes
+app.use("/knowledge", KnowledgeRouter)
 
 sequelize.sync().then(() => {
     app.listen(port, () => {
