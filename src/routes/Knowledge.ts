@@ -1,78 +1,84 @@
 import { Router, Request, Response } from "express";
-import { CreateBibliograph, ReadAllBibliographs, ReadBibliograph, UpdateBibliograph, DeleteBibliograph } from "../controllers/Bibliograph";
+import {
+    CreateKnowledge,
+    DeleteKnowledge, 
+    ReadAllKnowledge, 
+    ReadKnowledge, 
+    UpdateKnowledge 
+} from "../controllers/Knowledge";
 
-const BibliographRouter = Router();
+const KnowledgeRouter = Router();
 
-// Route to create a Bibliograph
-BibliographRouter.post("/", async (req: Request, res: Response) => {
-    const { type, description, curricularUnityId } = req.body;
+// Route to create a knowledge entry
+KnowledgeRouter.post("/", async (req: Request, res: Response) => {
+    const { description, knowFatherId } = req.body;
     try {
-        const bibliograph = await CreateBibliograph(type, description);
-        res.status(201).json(bibliograph);
+        const knowledge = await CreateKnowledge(description, knowFatherId);
+        res.status(201).json(knowledge);
     } catch (error) {
-        console.error("Error creating Bibliograph:", error);
-        res.status(500).send("Error creating Bibliograph");
+        console.error("Error creating Knowledge:", error);
+        res.status(500).send("Error creating Knowledge");
     }
 });
 
-// Route to retrieve all Bibliographs
-BibliographRouter.get("/", async (req: Request, res: Response) => {
+// Route to retrieve all knowledge entries
+KnowledgeRouter.get("/", async (req: Request, res: Response) => {
     try {
-        const bibliographs = await ReadAllBibliographs();
-        res.status(200).json(bibliographs);
+        const knowledgeList = await ReadAllKnowledge();
+        res.status(200).json(knowledgeList);
     } catch (error) {
-        console.error("Error retrieving Bibliographs:", error);
-        res.status(500).send("Error retrieving Bibliographs");
+        console.error("Error retrieving Knowledge:", error);
+        res.status(500).send("Error retrieving Knowledge");
     }
 });
 
-// Route to retrieve a specific Bibliograph
-BibliographRouter.get("/:id", async (req: Request, res: Response) => {
+// Route to retrieve a specific knowledge entry
+KnowledgeRouter.get("/:id", async (req: Request, res: Response) => {
     const id = parseInt(req.params.id);
     try {
-        const bibliograph = await ReadBibliograph(id);
-        if (bibliograph) {
-            res.status(200).json(bibliograph);
+        const knowledge = await ReadKnowledge(id);
+        if (knowledge) {
+            res.status(200).json(knowledge);
         } else {
-            res.status(404).send("Bibliograph not found");
+            res.status(404).send("Knowledge not found");
         }
     } catch (error) {
-        console.error("Error retrieving Bibliograph:", error);
-        res.status(500).send("Error retrieving Bibliograph");
+        console.error("Error retrieving Knowledge:", error);
+        res.status(500).send("Error retrieving Knowledge");
     }
 });
 
-// Route to update a specific Bibliograph
-BibliographRouter.put("/:id", async (req: Request, res: Response) => {
+// Route to update a specific knowledge entry
+KnowledgeRouter.put("/:id", async (req: Request, res: Response) => {
     const id = parseInt(req.params.id);
-    const { type, description, curricularUnityId } = req.body;
+    const { description, knowFatherId } = req.body;
     try {
-        const updatedBibliograph = await UpdateBibliograph(id, type, description);
-        if (updatedBibliograph) {
-            res.status(200).send(`Bibliograph with id ${id} updated`);
+        const updatedKnowledge = await UpdateKnowledge(id, description, knowFatherId);
+        if (updatedKnowledge) {
+            res.status(200).json(updatedKnowledge);
         } else {
-            res.status(404).send("Bibliograph not found");
+            res.status(404).send("Knowledge not found");
         }
     } catch (error) {
-        console.error("Error updating Bibliograph:", error);
-        res.status(500).send("Error updating Bibliograph");
+        console.error("Error updating Knowledge:", error);
+        res.status(500).send("Error updating Knowledge");
     }
 });
 
-// Route to delete a specific Bibliograph
-BibliographRouter.delete("/:id", async (req: Request, res: Response) => {
+// Route to delete a specific knowledge entry
+KnowledgeRouter.delete("/:id", async (req: Request, res: Response) => {
     const id = parseInt(req.params.id);
     try {
-        const deleted = await DeleteBibliograph(id);
+        const deleted = await DeleteKnowledge(id);
         if (deleted) {
-            res.status(200).send(`Bibliograph with id ${id} deleted`);
+            res.status(200).send(`Knowledge with id ${id} deleted`);
         } else {
-            res.status(404).send("Bibliograph not found");
+            res.status(404).send("Knowledge not found");
         }
     } catch (error) {
-        console.error("Error deleting Bibliograph:", error);
-        res.status(500).send("Error deleting Bibliograph");
+        console.error("Error deleting Knowledge:", error);
+        res.status(500).send("Error deleting Knowledge");
     }
 });
 
-export default BibliographRouter;
+export default KnowledgeRouter;
