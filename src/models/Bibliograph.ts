@@ -1,4 +1,4 @@
-import { Model, Table, Column, DataType, ForeignKey } from 'sequelize-typescript';
+import { Model, Table, Column, DataType } from 'sequelize-typescript';
 
 interface BibliographAttributes {
   type: string;
@@ -6,7 +6,7 @@ interface BibliographAttributes {
 }
 
 @Table({ tableName: 'bibliograph' })
-export default class Bibliograph extends Model<BibliographAttributes> implements BibliographAttributes {
+class Bibliograph extends Model<BibliographAttributes> implements BibliographAttributes {
   @Column({
     type: DataType.STRING,
     allowNull: false
@@ -18,5 +18,6 @@ export default class Bibliograph extends Model<BibliographAttributes> implements
     allowNull: false
   })
   description!: string;
-
 }
+
+export default Bibliograph;
