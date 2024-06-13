@@ -2,13 +2,13 @@ import { Model, Table, Column, ForeignKey, DataType } from 'sequelize-typescript
 import Knowledge from './Knowledge';
 import CurricularUnity from './CurricularUnity';
 
-interface KnowledgeCurricularUnityAttributes {
+interface CurricularUnityKnowledgeAttributes {
   knowledgeId: number;
   curricularUnityId: number;
 }
 
-@Table({ tableName: 'knowledgeCurricularUnity' })
-export default class KnowledgeCurricularUnity extends Model<KnowledgeCurricularUnityAttributes> implements KnowledgeCurricularUnityAttributes {
+@Table({ tableName: 'curricularUnityKnowledge' })
+export default class CurricularUnityKnowledge extends Model<CurricularUnityKnowledgeAttributes> implements CurricularUnityKnowledgeAttributes {
   @ForeignKey(() => Knowledge)
   @Column({
     type: DataType.INTEGER,

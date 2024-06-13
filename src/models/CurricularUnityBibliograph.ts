@@ -1,14 +1,14 @@
-import { Model, Table, Column, ForeignKey, DataType } from 'sequelize-typescript';
+import { Model, Table, Column, ForeignKey, DataType, PrimaryKey } from 'sequelize-typescript';
 import Bibliograph from './Bibliograph';
 import CurricularUnity from './CurricularUnity';
 
-interface BibliographCurricularUnityAttributes {
+interface CurricularUnityBibliographAttributes {
   bibliographId: number;
   curricularUnityId: number;
 }
 
 @Table({ tableName: 'bibliographCurricularUnity' })
-export default class BibliographCurricularUnity extends Model<BibliographCurricularUnityAttributes> implements BibliographCurricularUnityAttributes {
+export default class CurricularUnityBibliograph extends Model<CurricularUnityBibliographAttributes> implements CurricularUnityBibliographAttributes {
   @ForeignKey(() => Bibliograph)
   @Column({
     type: DataType.INTEGER,
