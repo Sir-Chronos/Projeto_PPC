@@ -5,11 +5,11 @@ const db = sequelize;
 
 db.authenticate()
   .then(() => console.log("Database connected..."))
-  .catch((err) => console.log("Error: ", err));
+  .catch((err) => console.error("Error:", err));
 
-async function CreatePPC(occupationArea: string, course: string) {
+async function CreatePPC(occupationArea: string, course: string, version: Date) {
   try {
-    const ppc = await PPC.create({ occupationArea, course });
+    const ppc = await PPC.create({ occupationArea, course, version });
     console.log("PPC created successfully:", ppc.id);
     return ppc;
   } catch (error) {
@@ -45,12 +45,13 @@ async function ReadPPC(id: number) {
   }
 }
 
-async function UpdatePPC(id: number, occupationArea: string, course: string) {
+async function UpdatePPC(id: number, occupationArea: string, course: string, version: Date) {
   try {
     const ppc = await PPC.findByPk(id);
     if (ppc) {
       ppc.occupationArea = occupationArea;
       ppc.course = course;
+      ppc.version = version;
       await ppc.save();
       console.log("PPC updated successfully:", ppc);
       return ppc;
