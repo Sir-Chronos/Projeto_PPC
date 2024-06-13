@@ -34,14 +34,14 @@ async function ReadPPC(id: number) {
     const ppc = await PPC.findByPk(id);
     if (ppc) {
       console.log("PPC retrieved successfully:", ppc);
-      return ppc;
+      return { success: true, data: ppc };
     } else {
       console.log("PPC not found");
-      return null;
+      return { success: false, message: "PPC not found" };
     }
   } catch (error) {
     console.error("Error reading PPC:", error);
-    throw error;
+    throw { success: false, message: "Error reading PPC", error };
   }
 }
 
