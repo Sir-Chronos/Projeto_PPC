@@ -1,5 +1,7 @@
 import sequelize from "../config/sequelize";
 import User from "../models/User";
+import bcrypt from 'bcrypt';
+import { Request, Response } from 'express';
 
 const db = sequelize;
 
@@ -9,7 +11,9 @@ db.authenticate()
 
 async function CreateUser(name: string, password: string, email: string) {
   try {
-    const user = await User.create({ name, password, email });
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    const user = await User.create({ name, password: hashedPassword, email });
     console.log("User created successfully:", user.id);
     return user;
   } catch (error) {
@@ -20,7 +24,9 @@ async function CreateUser(name: string, password: string, email: string) {
 
 async function ReadAllUsers() {
   try {
-    const users = await User.findAll();
+    const users = await User.findAll({
+      attributes: { exclude: ['password'] } // Exclude the password field
+    });
     console.log("Users retrieved successfully:", users);
     return users;
   } catch (error) {
@@ -31,7 +37,9 @@ async function ReadAllUsers() {
 
 async function ReadUser(id: number) {
   try {
-    const user = await User.findByPk(id);
+    const user = await User.findByPk(id, {
+      attributes: { exclude: ['password'] } // Exclude the password field
+    });
     if (user) {
       console.log("User retrieved successfully:", user);
       return user;
@@ -50,7 +58,13 @@ async function UpdateUser(id: number, name: string, password: string, email: str
     const user = await User.findByPk(id);
     if (user) {
       user.name = name;
-      user.password = password; // Be cautious with storing plain text passwords
+
+      // Check if the password needs to be updated
+      if (password) {
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(password, salt);
+      }
+
       user.email = email;
       await user.save();
       console.log("User updated successfully:", user);
@@ -82,4 +96,21 @@ async function DeleteUser(id: number) {
   }
 }
 
-export { CreateUser, ReadAllUsers, ReadUser, UpdateUser, DeleteUser };
+async function loginUser(req: Request, res: Response) {
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({ where: { email } });
+    if (!user) return res.status(404).send('User not found');
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(401).send('Invalid credentials');
+
+    // Generate a token (JWT) or set a session here
+    res.status(200).send('User logged in');
+  } catch (error) {
+    console.error("Error logging in:", error);
+    res.status(500).send('Error logging in');
+  }
+}
+
+export { CreateUser, ReadAllUsers, ReadUser, UpdateUser, DeleteUser, loginUser };
