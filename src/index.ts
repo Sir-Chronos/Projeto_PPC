@@ -11,6 +11,7 @@
     import CurricularUnityBibliographRouter from "./routes/CurricularUnityBibliograph";
     import CurricularUnityKnowledgeRouter from "./routes/CurricularUnityKnowledge";
     import CurricularUnitySkillRouter from "./routes/CurricularUnitySkill";
+import UserRouter from "./routes/User";
 
     const port = 8000;
     const app = express();
@@ -26,6 +27,7 @@
     app.use("/curricular-unity-knowledge", CurricularUnityKnowledgeRouter)
     app.use("/curricular-unity-skill", CurricularUnitySkillRouter)
     app.use("/PPC", PPCRouter)
+    app.use("/user", UserRouter)
 
     sequelize.sync().then(() => {
         app.listen(port, () => {

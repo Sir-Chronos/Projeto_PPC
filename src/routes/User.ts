@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import { CreateUser, DeleteUser, ReadAllUsers, ReadUser, UpdateUser } from "../controllers/User";
+import { CreateUser, DeleteUser, ReadAllUsers, ReadUser, UpdateUser, loginUser } from "../controllers/User";
 
 const UserRouter = Router();
 
@@ -72,6 +72,16 @@ UserRouter.delete("/:id", async (req: Request, res: Response) => {
     } catch (error) {
         console.error("Error deleting user:", error);
         res.status(500).send("Error deleting user");
+    }
+});
+
+// Rota para login de usuário
+UserRouter.post("/login", async (req: Request, res: Response) => {
+    try {
+        await loginUser(req, res);
+    } catch (error) {
+        console.error("Error logging user:", error);
+        res.status(500).send("Error logging user");
     }
 });
 
